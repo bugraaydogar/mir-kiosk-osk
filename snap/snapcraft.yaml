@@ -32,6 +32,8 @@ apps:
       - hardware-observe
       - home
       - mount-observe
+      - desktop
+      - desktop-legacy
       - network
       - network-bind
       - network-manager
