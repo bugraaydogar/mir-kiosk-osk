@@ -49,14 +49,10 @@ apps:
 plugs:
   x11-plug:
     interface: x11
-  gnome-3-26-1604:
+  gnome-3-28-1804:
     interface: content
     target: $SNAP/gnome-platform
-    default-provider: gnome-3-26-1604
-  # gnome-3-28-1804:
-  #   interface: content
-  #   target: $SNAP/gnome-platform
-  #   default-provider: gnome-3-28-1804
+    default-provider: gnome-3-28-1804
   gtk-3-themes:
     interface: content
     target: $SNAP/data-dir/themes
@@ -69,15 +65,6 @@ plugs:
     interface: content
     target: $SNAP/data-dir/sounds
     default-provider: gtk-common-themes
-
-
-# slots:
-#   dbus-daemon:
-#     interface: dbus
-#     bus: session
-#     # name: org.onboard.Onboard
-#     name: org.freedesktop.Dbus
-
 
 parts:
 
@@ -176,15 +163,23 @@ parts:
     source: scripts
 
   # This is list of on screen keyboards
-  osk-list:
-    plugin: nil
+  matchbox-keyboard:
+    plugin: autotools
+    source: https://github.com/jku/matchbox-keyboard.git
+    configflags:
+      - --enable-gtk3-im
+      - --prefix=/usr
+    override-build: |
+      snapcraftctl build
+      DESTDIR=$SNAPCRAFT_PART_INSTALL make install
+    build-packages:
+      - libfakekey-dev
+      - libgtk-3-dev
+      - libxft-dev
     stage-packages:
-      - xvkbd
-      - matchbox-keyboard
-      - onboard
-      - florence
-      - at-spi2-core
-      - python-gobject
+      - libfakekey0
+      - libgtk-3-0
+      - libxft2
 
 
   gtk-packs:

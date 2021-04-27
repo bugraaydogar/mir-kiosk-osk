@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-# Create $XDG_RUNTIME_DIR if not exists (to be removed when LP: #1738197 is fixed)
-[ -n "$XDG_RUNTIME_DIR" ] && mkdir -p $XDG_RUNTIME_DIR -m 700
 
 
 # Wayland socket management
@@ -86,6 +84,7 @@ font pango:monospace 8
 for_window [${XWAYLAND_FULLSCREEN_WINDOW_HINT}] fullscreen
 EOF
 
+
 # Launch Xwayland.
 (SNAPPY_PRELOAD=$SNAP \
 LD_PRELOAD=$SNAP/lib/libxwayland-preload.so \
@@ -105,6 +104,7 @@ export FONTCONFIG_FILE=$SNAP/etc/fonts/fonts.conf
 
 # Avoid using $XDG_RUNTIME_DIR until LP: #1656340 is fixed
 (XDG_RUNTIME_DIR=$SNAP_DATA $SNAP/bin/wmx) &
-#($SNAP/usr/lib/at-spi2-core/at-spi-bus-launcher --launch-immediately) &
+# (XDG_RUNTIME_DIR=$SNAP_DATA $SNAP/bin/flutter_gallery) &
+# (XDG_RUNTIME_DIR=$SNAP_DATA $SNAP/usr/bin/matchbox-keyboard --width 1000 --height 500 ) &
 "$@"
 
